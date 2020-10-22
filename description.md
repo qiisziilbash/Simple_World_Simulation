@@ -31,7 +31,8 @@
     - do nothing
 
 - there are 4 types of agents:
-   - aggressive: they defend their food and fight for new food
-   - scapegoat: they do not defend their food but fight for new food
-   - decent: they do defend their food but do not fight for new food   
+   - ⊠ aggressive: they defend their food and fight for new food
+   - ⊡ scapegoat: they do not defend their food but fight for new food
+   - ⊙ decent: they do defend their food but do not fight for new food   
+   - ⊚ poor: they do not defend their food and do not fight for new food
  

@@ -47,10 +47,10 @@ def generate_world(rows, cols):
 
 
 def fill_random_world(world):
-    world[0][1] = Cell(2, Agent(Agents.AGGRESSIVE, 8, 10, 2))
-    world[5][6] = Cell(0, Agent(Agents.DECENT, 8, 10, 2))
-    world[3][1] = Cell(0, Agent(Agents.POOR, 8, 10, 2))
-    world[9][6] = Cell(2, Agent(Agents.SCAPEGOAT, 8, 10, 2))
+    world[0][1] = Cell(2, Agent(Agents.AGGRESSIVE, 8, 10, 2, (0, 1)))
+    world[5][6] = Cell(0, Agent(Agents.DECENT, 8, 10, 2, (5, 6)))
+    world[3][1] = Cell(0, Agent(Agents.POOR, 8, 10, 2, (3, 1)))
+    world[9][6] = Cell(2, Agent(Agents.SCAPEGOAT, 8, 10, 2, (9, 6)))
     return world
 
 

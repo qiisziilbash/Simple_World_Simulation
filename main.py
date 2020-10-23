@@ -18,7 +18,7 @@ world = fill_random_world(world)
 
 agents_initial_distribution = [total_population / 4] * Agents.__len__()
 
-
+print_world(world)
 for run in range(runs):
     world = run_the_world(world)
     print_world(world)

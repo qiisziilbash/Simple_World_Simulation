@@ -22,6 +22,6 @@ def run_the_world(world):
             cell.agent = None
 
     for agent in agents:
-        world[agent.position[0]][agent.position[1]] = agent
+        world[agent.position[0]][agent.position[1]].agent = agent
 
     return world

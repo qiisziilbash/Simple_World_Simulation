@@ -2,9 +2,9 @@ from enum import Enum
 
 
 class Agents(Enum):
-    AGGRESSIVE = ('▢', '▣')
-    SCAPEGOAT = ('△', '▲')
-    DECENT = ('◇', '◈')
+    AGGRESSIVE = ('△', '▲')
+    SCAPEGOAT = ('◇', '◈')
+    DECENT = ('▢', '▣')
     POOR = ('○', '◉')
 
 

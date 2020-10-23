@@ -4,16 +4,22 @@
 - an n*m matrix (borders of the matrix is blocked)
 - each cell can be empty, contain a food, or a food and an agent
 - each food has an amount that is a positive even integer number    
-    - amount of each food is decreased by 2 if an agent is on it and hasn't reached their max strength
+    - amount of each food is decreased by 2 if an agent is on it and the agent hasn't reached their max strength
 
 ## Agents
 - have strength
     - strength is an integer number with default value and a maximum value
     - every day agents loose one strength
     - if agents have food they gain 2 extra strength every day 
+    - agents die if their strength is 0
     
 - have power
     - power is a fixed integer number
+    
+- have a max reproduction rate
+    - agents reproduction rate = max_reproduction_rate * current_strength / max_strength
+    - every day agents reproduce with their reproduction rate if they have at least one open neighbor cell
+
     
 ## Rules
 - agents take actions constantly unless they have food and no one is attacking
@@ -32,8 +38,8 @@
     - do nothing
 
 - there are 4 types of agents:
-   - ⊠ aggressive: they defend their food and fight for new food
-   - ⊡ scapegoat: they do not defend their food but fight for new food
-   - ⊙ decent: they do defend their food but do not fight for new food   
-   - ⊚ poor: they do not defend their food and do not fight for new food
+   - ('△') aggressive: they defend their food and fight for new food
+   - ('◇') scapegoat: they do not defend their food but fight for new food
+   - ('▢') decent: they do defend their food but do not fight for new food   
+   - ('○') poor: they do not defend their food and do not fight for new food
  

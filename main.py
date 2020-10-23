@@ -69,6 +69,6 @@ world = generate_world(rows, cols, agents_initial_parameters, food_parameters)
 print_world(world)
 
 for run in range(runs):
-    world = run_the_world(world)
+    run_the_world(world, food_parameters['probability'])
     print_world(world)
     sleep(.5)

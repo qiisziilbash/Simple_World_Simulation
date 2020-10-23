@@ -89,3 +89,6 @@ class Cell:
     def decrease_food(self):
         if self.food > 0:
             self.food -= 2
+
+    def increase_food(self):
+        self.food += 2

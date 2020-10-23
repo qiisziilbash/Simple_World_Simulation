@@ -53,8 +53,6 @@ def distribute_food(world, food_parameters):
             if random.random() < food_parameters['probability']:
                 cell.food = random.choice(available_food_amounts)
 
-    return world
-
 
 def create_agents(world, agents_parameters, rows, cols):
     agents = []
@@ -76,15 +74,13 @@ def create_agents(world, agents_parameters, rows, cols):
         agent.position = position
         world[agent.position[0]][agent.position[1]].agent = agent
 
-    return world
-
 
 def generate_world(rows, cols, agents_parameters, food_parameters):
 
     world = [[Cell(0, None) for i in range(cols)] for j in range(rows)]
 
-    world = create_agents(world, agents_parameters, rows, cols)
+    create_agents(world, agents_parameters, rows, cols)
 
-    world = distribute_food(world, food_parameters)
+    distribute_food(world, food_parameters)
 
     return world

@@ -1,7 +1,25 @@
 import random
 
 
+def feed_agents(agents, world):
+    for agent in agents:
+        agent.decrease_strength()
+        if world[agent.position[0]][agent.position[1]].has_food():
+            agent.give_food()
+            world[agent.position[0]][agent.position[1]].decrease_food()
+
+    return agents
+
+
+def handle_encounters(agents, world):
+    pass
+
+
 def move_agents(agents, world):
+    for agent in agents:
+        if not world[agent.position[0]][agent.position[1]].has_food():
+            pass
+
     return agents
 
 
@@ -26,44 +44,37 @@ def reproduce_strong_agents(agents, world):
     return new_population
 
 
-def reproduce_food(world):
-    return world
+def reproduce_food(world, food_probability):
+    for row in world:
+        for cell in row:
+            if random.random() < food_probability:
+                cell.increase_food()
 
 
-def run_the_world(world):
-    # take all the agents
+def run_the_world(world, food_probability):
+
     agents = []
     for row in world:
         for cell in row:
             if cell.agent:
                 agents.append(cell.agent)
 
-    # handle their strength and food
-    for agent in agents:
-        agent.decrease_strength()
-        if world[agent.position[0]][agent.position[1]].has_food():
-            agent.give_food()
-            world[agent.position[0]][agent.position[1]].decrease_food()
+    agents = feed_agents(agents, world)
 
-    # kill the weak agents
+    reproduce_food(world, food_probability)
+
     agents = kill_weak_agents(agents)
 
-    # reproduce the strong agents
     agents = reproduce_strong_agents(agents, world)
 
-    # TODO move agents
+    # TODO
     agents = move_agents(agents, world)
 
-    # clean up old agents
+    # update population
     for row in world:
         for cell in row:
             cell.agent = None
 
-    # add the new agents
     for agent in agents:
         world[agent.position[0]][agent.position[1]].agent = agent
 
-    # TODO reproduce food
-    world = reproduce_food(world)
-
-    return world

@@ -23,8 +23,8 @@
 
     
 ## Rules
-- agents take actions constantly unless they have food and no one is attacking
-    - agents either stay where they are or move forward, left, right, backward
+- agents take actions constantly unless they have food and no one is attacking or they cannot move because they are blocked
+    - agents either move forward, left, right, backward if not blocked
     - each of their action has an equal probability 
     - agents can not go to the blocked cells
 
@@ -33,9 +33,9 @@
 
 - when agents encounter each other:
     - attack
-        - if they both attack their wining probability is power of each over the sum of their powers
-        - if only one of them attacks, the attacker wins
-        - if there is an attack, agents positions should be swapped if winner is not already on food
+        - one of the attackers get to be on the food and swap their place with the current person on the food
+            - the winner is determined probabilistically and each agent's winning probability is their power over the sum of all attackers' powers 
+        - rest of agents stay where they are
     - do nothing
 
 - there are 4 types of agents:

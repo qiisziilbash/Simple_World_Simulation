@@ -3,7 +3,8 @@
 ## World
 - an n*m matrix (borders of the matrix is blocked)
 - each cell can be empty, contain a food, or a food and an agent
-- each food has an amount that is a positive even integer number    
+- each food has an amount that is a positive even integer number  
+    - initially each cell has food with a specific probability   
     - amount of each food is decreased by 2 if an agent is on it and the agent hasn't reached their max strength
 
 ## Agents

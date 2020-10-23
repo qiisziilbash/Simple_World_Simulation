@@ -1,6 +1,6 @@
 import random
 
-from Utils.class_descriptions import Cell, Agent, Agents
+from Utils.class_descriptions import Cell, Agent
 
 
 def print_world(world):
@@ -19,6 +19,8 @@ def print_world(world):
             if cell.agent:
                 value = cell.agent.name.value[0] if cell.food == 0 else cell.agent.name.value[1]
                 print('|  ' + value + '  ', end='')
+            elif cell.has_food():
+                print('|  ' + '.' + '  ', end='')
             else:
                 print('|     ', end='')
         print('|')
@@ -41,17 +43,31 @@ def print_world(world):
     print('=')
 
 
-def generate_world(rows, cols, agents_initial_distribution):
-    """
-    :return: an empty matrix of empty cells with no food
-    """
-    # TODO handle food distribution
-    world = [[Cell(random.choice([0, 0, 0, 2, 2, 4]), None) for i in range(cols)] for j in range(rows)]
+def distribute_food(world, food_parameters):
+    available_food_amounts = []
+    for food_amount, chance in food_parameters['amounts_chances'].items():
+        available_food_amounts.extend([food_amount] * chance)
 
+    for row in world:
+        for cell in row:
+            if random.random() < food_parameters['probability']:
+                cell.food = random.choice(available_food_amounts)
+
+    return world
+
+
+def create_agents(world, agents_parameters, rows, cols):
     agents = []
-    for agent_type, population in agents_initial_distribution.items():
-        for i in range(population):
-            agents.append(Agent(agent_type, 8, 10, 2, (0, 0)))
+    for agent_type, properties in agents_parameters.items():
+        for i in range(properties['population']):
+            agents.append(Agent(agent_type,
+                                properties['initial_strength'],
+                                properties['max_strength'],
+                                properties['initial_strength'],
+                                properties['power'],
+                                (0, 0),
+                                properties['reproduction_rate'])
+                          )
 
     open_positions = [(i, j) for i in range(rows) for j in range(cols)]
     chosen_positions = random.sample(open_positions, len(agents))
@@ -59,5 +75,16 @@ def generate_world(rows, cols, agents_initial_distribution):
     for agent, position in zip(agents, chosen_positions):
         agent.position = position
         world[agent.position[0]][agent.position[1]].agent = agent
+
+    return world
+
+
+def generate_world(rows, cols, agents_parameters, food_parameters):
+
+    world = [[Cell(0, None) for i in range(cols)] for j in range(rows)]
+
+    world = create_agents(world, agents_parameters, rows, cols)
+
+    world = distribute_food(world, food_parameters)
 
     return world

@@ -1,23 +1,25 @@
 from time import sleep
 
-# simulation parameters
-from Utils.world_handler import run_the_world
+from Utils.simulator import run_the_world
+from Utils.world_handler import generate_world, print_world, fill_random_world
+from Utils.class_descriptions import Agents
 
-runs = 1000
+
+# simulation parameters
+runs = 1
 dealy = 0.2
 
-number_of_agents = 4
-agents_with_foods = ['▲', '	▣', '◈', '◉']
-agents_without_foods = ['△', '▢', '◇', '○']
 total_population = 1000
-
 rows, cols = 10, 10
 
 # init
-world = [[' ' for i in range(cols)] for j in range(rows)]
-agents_initial_distribution = [total_population / 4] * number_of_agents
+world = generate_world(rows, cols)
+world = fill_random_world(world)
+
+agents_initial_distribution = [total_population / 4] * Agents.__len__()
 
 
 for run in range(runs):
     world = run_the_world(world)
+    print_world(world)
     sleep(.5)

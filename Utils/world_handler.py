@@ -1,3 +1,5 @@
+import random
+
 from Utils.class_descriptions import Cell, Agent, Agents
 
 
@@ -39,18 +41,23 @@ def print_world(world):
     print('=')
 
 
-def generate_world(rows, cols):
+def generate_world(rows, cols, agents_initial_distribution):
     """
     :return: an empty matrix of empty cells with no food
     """
-    return [[Cell(0) for i in range(cols)] for j in range(rows)]
+    # TODO handle food distribution
+    world = [[Cell(random.choice([0, 0, 0, 2, 2, 4]), None) for i in range(cols)] for j in range(rows)]
 
+    agents = []
+    for agent_type, population in agents_initial_distribution.items():
+        for i in range(population):
+            agents.append(Agent(agent_type, 8, 10, 2, (0, 0)))
 
-def fill_random_world(world):
-    world[0][1] = Cell(2, Agent(Agents.AGGRESSIVE, 8, 10, 2, (0, 1)))
-    world[5][6] = Cell(0, Agent(Agents.DECENT, 8, 10, 2, (5, 6)))
-    world[3][1] = Cell(0, Agent(Agents.POOR, 8, 10, 2, (3, 1)))
-    world[9][6] = Cell(2, Agent(Agents.SCAPEGOAT, 8, 10, 2, (9, 6)))
+    open_positions = [(i, j) for i in range(rows) for j in range(cols)]
+    chosen_positions = random.sample(open_positions, len(agents))
+
+    for agent, position in zip(agents, chosen_positions):
+        agent.position = position
+        world[agent.position[0]][agent.position[1]].agent = agent
+
     return world
-
-

@@ -6,7 +6,7 @@ from Utils.class_descriptions import Agents
 
 
 # simulation parameters
-runs = 1
+runs = 2
 day_duration = 0.2
 
 total_population = 12
@@ -66,9 +66,13 @@ agents_initial_parameters = {
 #############################################################
 world = generate_world(rows, cols, agents_initial_parameters, food_parameters)
 
+print('                          Initial World')
 print_world(world)
+sleep(1)
+
 
 for run in range(runs):
+    print('                          Day ' + str(run+1))
     run_the_world(world, food_parameters['probability'])
     print_world(world)
     sleep(.5)

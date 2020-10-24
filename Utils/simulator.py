@@ -1,5 +1,7 @@
 import random
 
+from Utils.class_descriptions import Directions
+
 
 def feed_agents(agents, world):
     for agent in agents:
@@ -10,7 +12,37 @@ def feed_agents(agents, world):
 
 
 def handle_encounters(agents, world):
-    pass
+    rows, cols = len(world), len(world[0])
+    directions = [direction.value for direction in Directions]
+
+    for row in range(rows):
+        for col in range(cols):
+            if world[row][col].has_food() and not world[row][col].is_open():
+                fighters = []
+                for direction in directions:
+                    x = row + direction[0]
+                    y = col + direction[1]
+                    if 0 <= x < rows and 0 <= y < cols:
+                        if world[x][y].would_attack():
+                            if world[x][y].agent.wanna_attack(world, (row, col)):
+                                fighters.append(world[x][y].agent)
+
+                if fighters:
+                    defender = world[row][col].agent
+                    defender.defend()
+                    fighters.append(defender)
+
+                    winner = random.choices(fighters, [agent.power for agent in fighters])[0]
+
+                    if winner is not defender:
+                        world[row][col].agent = winner
+                        world[winner.position[0]][winner.position[1]].agent = defender
+
+                        defender.move((winner.position[0], winner.position[1]))
+                        winner.move((row, col))
+
+    for agent in agents:
+        agent.reset_fight()
 
 
 def handle_conflicted_moves(agents, world):

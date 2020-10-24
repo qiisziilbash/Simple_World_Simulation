@@ -76,6 +76,7 @@ def create_agents(world, agents_parameters, rows, cols):
 
 
 def generate_world(rows, cols, agents_parameters, food_parameters):
+    random.seed(30)
 
     world = [[Cell(0, None) for i in range(cols)] for j in range(rows)]
 

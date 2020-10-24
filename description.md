@@ -34,8 +34,11 @@
 - when agents encounter each other:
     - attack
         - one of the attackers get to be on the food and swap their place with the current person on the food
-            - the winner is determined probabilistically and each agent's winning probability is their power over the sum of all attackers' powers 
-        - rest of agents stay where they are
+            - the winner is determined probabilistically and each agent's winning probability is their power over the sum of defender and all attackers' powers 
+            - rest of agents stay where they are
+        - if there are more than one cell to attack:
+            - each agent will attack only one cell at a time
+            - candidate cell's chance to be attacked is cell's food / (number of attackers + 1 defender)
     - do nothing
 
 - there are 4 types of agents:

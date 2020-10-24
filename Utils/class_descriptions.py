@@ -1,6 +1,8 @@
 import random
 from enum import Enum
 
+from multipledispatch import dispatch
+
 
 class Agents(Enum):
     AGGRESSIVE = ('△', '▲')
@@ -26,6 +28,7 @@ class Agent:
         self.position = position
         self.next_position = (0, 0)
         self.reproduction_rate = reproduction_rate
+        self.fought = False
 
     def decrease_strength(self):
         self.strength -= 1
@@ -68,8 +71,13 @@ class Agent:
         else:
             self.next_position = self.position
 
+    @dispatch()
     def move(self):
         self.position = self.next_position
+
+    @dispatch(tuple)
+    def move(self, position):
+        self.position = position
 
     def give_birth(self, birth_position):
         baby = Agent(self.name,
@@ -80,6 +88,22 @@ class Agent:
                      birth_position,
                      self.reproduction_rate)
         return baby
+
+    def has_fought(self):
+        return self.fought
+
+    def defend(self):
+        self.fought = True
+
+    def reset_fight(self):
+        self.fought = False
+
+    def wanna_attack(self, world, position):
+        if not self.has_fought():
+            if self.name == Agents.AGGRESSIVE or self.name == Agents.SCAPEGOAT:
+                self.fought = True
+                return True
+        return False
 
 
 class Cell:
@@ -98,9 +122,15 @@ class Cell:
     def has_food(self):
         return self.food > 0
 
+    def get_food(self):
+        return self.food
+
     def decrease_food(self):
         if self.food > 0:
             self.food -= 2
 
     def increase_food(self):
         self.food += 2
+
+    def would_attack(self):
+        return not (self.has_food() or self.is_open())

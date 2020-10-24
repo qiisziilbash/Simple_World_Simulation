@@ -6,7 +6,7 @@ from Utils.class_descriptions import Agents
 
 
 # simulation parameters
-runs = 2
+runs = 20
 day_duration = 0.2
 
 total_population = 12
@@ -26,7 +26,7 @@ food_parameters = {
 
 initial_strength = 8
 max_strength = 10
-reproduction_rate = .2
+reproduction_rate = .1
 power = 6
 
 # init
@@ -76,3 +76,7 @@ for run in range(runs):
     run_the_world(world, food_parameters['probability'])
     print_world(world)
     sleep(.5)
+
+    # does not work in pycharm (only works in terminal)
+    clear_screen()
+

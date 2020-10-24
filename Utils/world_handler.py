@@ -1,6 +1,11 @@
+import os
 import random
 
 from Utils.class_descriptions import Cell, Agent
+
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def print_world(world):

@@ -1,3 +1,4 @@
+import random
 from enum import Enum
 
 
@@ -23,6 +24,7 @@ class Agent:
         self.initial_strength = initial_strength
         self.power = power
         self.position = position
+        self.next_position = (0, 0)
         self.reproduction_rate = reproduction_rate
 
     def decrease_strength(self):
@@ -47,8 +49,8 @@ class Agent:
             x = self.position[0] + direction[0]
             y = self.position[1] + direction[1]
 
-            if 0 < x < len(world[0]) and 0 < y < len(world):
-                if world[x][y].agent is not None:
+            if 0 <= x < len(world) and 0 <= y < len(world[0]):
+                if world[x][y].agent is None:
                     neighbors.append(
                         tuple(
                             map(
@@ -58,6 +60,16 @@ class Agent:
                     )
 
         return neighbors
+
+    def plan_to_move(self, world):
+        if self.has_open_neighbor(world):
+            neighbors = self.get_open_neighbors(world)
+            self.next_position = random.choice(neighbors)
+        else:
+            self.next_position = self.position
+
+    def move(self):
+        self.position = self.next_position
 
     def give_birth(self, birth_position):
         baby = Agent(self.name,

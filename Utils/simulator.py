@@ -8,19 +8,34 @@ def feed_agents(agents, world):
             agent.give_food()
             world[agent.position[0]][agent.position[1]].decrease_food()
 
-    return agents
-
 
 def handle_encounters(agents, world):
     pass
 
 
+def handle_conflicted_moves(agents, world):
+    board = [[[] for i in range(len(world[0]))] for j in range(len(world))]
+
+    for agent in agents:
+        board[agent.next_position[0]][agent.next_position[1]].append(agent)
+
+    for row in board:
+        for block in row:
+            if len(block) > 1:
+                moving_agent = random.choice(block)
+                for agent in block:
+                    if agent != moving_agent:
+                        agent.next_position = agent.position
+
+
 def move_agents(agents, world):
     for agent in agents:
-        if not world[agent.position[0]][agent.position[1]].has_food():
-            pass
+        agent.plan_to_move(world)
 
-    return agents
+    handle_conflicted_moves(agents, world)
+
+    for agent in agents:
+        agent.move()
 
 
 def kill_weak_agents(agents):
@@ -28,6 +43,7 @@ def kill_weak_agents(agents):
     for agent in agents:
         if agent.is_alive():
             survived_agents.append(agent)
+
     return survived_agents
 
 
@@ -52,6 +68,7 @@ def reproduce_food(world, food_probability):
 
 
 def run_the_world(world, food_probability):
+    random.seed(30)
 
     agents = []
     for row in world:
@@ -59,16 +76,17 @@ def run_the_world(world, food_probability):
             if cell.agent:
                 agents.append(cell.agent)
 
-    agents = feed_agents(agents, world)
-
-    reproduce_food(world, food_probability)
+    feed_agents(agents, world)
 
     agents = kill_weak_agents(agents)
 
+    handle_encounters(agents, world)
+
     agents = reproduce_strong_agents(agents, world)
 
-    # TODO
-    agents = move_agents(agents, world)
+    move_agents(agents, world)
+
+    reproduce_food(world, food_probability)
 
     # update population
     for row in world:

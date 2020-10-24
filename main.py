@@ -6,7 +6,7 @@ from Utils.class_descriptions import Agents
 
 
 # simulation parameters
-runs = 5
+runs = 1
 day_duration = 0.2
 
 total_population = 12
@@ -24,9 +24,9 @@ food_parameters = {
 }
 
 
-initial_strength = 2
+initial_strength = 8
 max_strength = 10
-reproduction_rate = 0.2
+reproduction_rate = .2
 power = 6
 
 # init

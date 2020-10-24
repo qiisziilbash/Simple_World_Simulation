@@ -28,8 +28,8 @@
     - each of their action has an equal probability 
     - agents can not go to the blocked cells
 
-- if two more than one agent wants to move a specific open cell only one of them randomly will go there and others will stay where they are
-- agents encounter each other if they can reach each other in the next move
+- if two more than one agent wants to move a specific open cell, only one of them randomly will go there and others will stay where they are
+- agents encounter each other if they can reach each other in the next move and only one of them has food
 
 - when agents encounter each other:
     - attack

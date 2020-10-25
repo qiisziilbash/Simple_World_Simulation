@@ -23,14 +23,14 @@ def handle_encounters(agents, world):
                     x = row + direction[0]
                     y = col + direction[1]
                     if 0 <= x < rows and 0 <= y < cols:
-                        if world[x][y].would_attack():
+                        if world[x][y].would_agent_attack():
                             if world[x][y].agent.wanna_attack(world, (row, col)):
                                 fighters.append(world[x][y].agent)
 
                 if fighters:
                     defender = world[row][col].agent
-                    defender.defend()
-                    fighters.append(defender)
+                    if defender.wanna_defend():
+                        fighters.append(defender)
 
                     winner = random.choices(fighters, [agent.power for agent in fighters])[0]
 

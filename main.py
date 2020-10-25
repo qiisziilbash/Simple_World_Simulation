@@ -1,19 +1,17 @@
-from time import sleep
-
 from Utils.simulator import *
 from Utils.world_handler import *
 from Utils.class_descriptions import Agents
 
-
+########################################################################################################################
 # simulation parameters
+########################################################################################################################
 runs = 20
-day_duration = 0.2
 
-total_population = 12
+total_population = 4
 rows, cols = 10, 10
 
 food_parameters = {
-    'probability': 0.2,
+    'probability': 0.1,
     'amounts_chances': {
         2: 10,
         4: 8,
@@ -63,20 +61,25 @@ agents_initial_parameters = {
     },
 }
 
-#############################################################
+########################################################################################################################
 world = generate_world(rows, cols, agents_initial_parameters, food_parameters)
 
-print('                          Initial World')
+print('======================= Initial World =======================')
 print_world(world)
-sleep(1)
+print(world[0][3].food)
+input()
 
 
 for run in range(runs):
-    print('                          Day ' + str(run+1))
     run_the_world(world, food_parameters['probability'])
-    print_world(world)
-    sleep(.5)
 
     # does not work in pycharm (only works in terminal)
     clear_screen()
+
+    print('=========================== Day ' + str(run+1) + ' ===========================')
+    print_world(world)
+    input()
+
+
+
 

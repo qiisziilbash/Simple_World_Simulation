@@ -65,7 +65,7 @@ class Agent:
         return neighbors
 
     def plan_to_move(self, world):
-        if self.has_open_neighbor(world):
+        if not world[self.position[0]][self.position[1]].has_food() and self.has_open_neighbor(world):
             neighbors = self.get_open_neighbors(world)
             self.next_position = random.choice(neighbors)
         else:
@@ -92,8 +92,11 @@ class Agent:
     def has_fought(self):
         return self.fought
 
-    def defend(self):
-        self.fought = True
+    def wanna_defend(self):
+        if self.name == Agents.AGGRESSIVE or self.name == Agents.DECENT:
+            self.fought = True
+            return True
+        return False
 
     def reset_fight(self):
         self.fought = False
@@ -107,11 +110,6 @@ class Agent:
 
 
 class Cell:
-    """
-        food is a positive and even integer
-        agent is an Agent object; if there is no agent it will be None
-    """
-
     def __init__(self, food, agent):
         self.food = food
         self.agent = agent
@@ -132,5 +130,5 @@ class Cell:
     def increase_food(self):
         self.food += 2
 
-    def would_attack(self):
+    def would_agent_attack(self):
         return not (self.has_food() or self.is_open())
